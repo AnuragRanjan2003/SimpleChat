@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "61494461385",
+    "project_id": "simplechat-d2ada",
+    "storage_bucket": "simplechat-d2ada.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:61494461385:android:de250acd544a1396f0de18",
+        "android_client_info": {
+          "package_name": "com.example.simplechat"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "61494461385-9jjt6dpnmonve9spmcvmvm95tqm3lv7h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARIVifZMUKx45mzvHR5H-dK2-mZ-B0HvE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "61494461385-9jjt6dpnmonve9spmcvmvm95tqm3lv7h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

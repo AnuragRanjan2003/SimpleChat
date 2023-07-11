@@ -31,10 +31,17 @@ class PeopleFragment : Fragment() {
         binding.rec.adapter = adapter
 
         viewModel.startGettingUserData()
+        viewModel.startGettingAllUsers()
 
         viewModel.getUser().observe(viewLifecycleOwner){
             e("get user" , "$it")
         }
+
+        viewModel.getUserList().observe(viewLifecycleOwner){
+            e("user list", "$it")
+            adapter.updateList(it)
+        }
+
 
 
 

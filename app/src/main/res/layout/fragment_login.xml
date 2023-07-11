@@ -37,23 +37,38 @@
             android:fontFamily="@font/poppins_bold"
             android:text="Log In"
             android:textColor="@color/white"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins"
+            android:text="Welcome back! Log In to continue."
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayout"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
-            android:layout_marginTop="30dp"
             android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
             android:hint="Email"
             app:boxBackgroundColor="@color/onBackground"
+            app:boxCornerRadiusBottomEnd="30dp"
+            app:boxCornerRadiusBottomStart="30dp"
+
+            app:boxCornerRadiusTopEnd="30dp"
+            app:boxCornerRadiusTopStart="30dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2">
+            app:layout_constraintTop_toBottomOf="@+id/textView4">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/login_email"
@@ -75,6 +90,10 @@
             android:layout_marginTop="50dp"
             android:layout_marginRight="30dp"
             android:hint="Password"
+            app:boxCornerRadiusTopEnd="30dp"
+            app:boxCornerRadiusBottomStart="30dp"
+            app:boxCornerRadiusTopStart="30dp"
+            app:boxCornerRadiusBottomEnd="30dp"
             app:boxBackgroundColor="@color/onBackground"
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"

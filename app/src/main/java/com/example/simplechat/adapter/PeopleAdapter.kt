@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.simplechat.databinding.PeopleLayoutBinding
 import com.example.simplechat.models.User
 
-class PeopleAdapter(private val list: ArrayList<User>) :
+class PeopleAdapter(private val list: ArrayList<User>, private val onClick: (User) -> Unit) :
     RecyclerView.Adapter<PeopleAdapter.MyViewHolder>() {
 
     inner class MyViewHolder(val binding: PeopleLayoutBinding) :
@@ -26,6 +26,9 @@ class PeopleAdapter(private val list: ArrayList<User>) :
         val user = list[position]
         holder.binding.itemEmail.text = user.email
         holder.binding.itemName.text = user.name
+
+        holder.itemView.setOnClickListener { onClick(user) }
+
     }
 
     fun addUser(user: User) {

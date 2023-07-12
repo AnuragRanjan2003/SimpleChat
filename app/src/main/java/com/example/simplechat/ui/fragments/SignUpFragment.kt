@@ -11,12 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.simplechat.R
 import com.example.simplechat.databinding.FragmentSignUpBinding
+import com.example.simplechat.utils.Resource
 import com.example.simplechat.viewmodels.SignUpViewModel
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
+import com.google.firebase.auth.FirebaseUser
 
 
 class SignUpFragment : Fragment() {
@@ -40,25 +37,41 @@ class SignUpFragment : Fragment() {
         binding.signupBtn.setOnClickListener {
             if (binding.signupEmail.text.isNullOrBlank()) {
                 binding.signupEmail.error = "Email Empty"
+                binding.loading.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
             if (binding.signupPassword.text.isNullOrBlank()) {
                 binding.signupPassword.error = "Password Empty"
+                binding.loading.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
             if (binding.signupName.text.isNullOrBlank()) {
                 binding.signupName.error = "Name Empty"
+                binding.loading.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
 
             binding.loading.visibility = View.VISIBLE
-            viewModel.createUser {
+            viewModel.createUser(updateUI = {
+                if (it is Resource.Success<FirebaseUser>) {
+                    binding.loading.visibility = View.INVISIBLE
+                    findNavController().navigate(R.id.action_signUpFragment_to_peopleFragment)
+                    Toast.makeText(context, "Logged in successfully", Toast.LENGTH_SHORT).show()
+                } else {
+                    binding.loading.visibility = View.INVISIBLE
+                    Toast.makeText(context, (it as Resource.Failure).error, Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }, timeOut = {
                 binding.loading.visibility = View.INVISIBLE
-                findNavController().navigate(R.id.action_signUpFragment_to_peopleFragment)
-                Toast.makeText(context, "Logged in successfully", Toast.LENGTH_SHORT).show()
-            }
+                Toast.makeText(
+                    context,
+                    "Request timeout. Please check your connection",
+                    Toast.LENGTH_SHORT
+                ).show()
+            })
         }
 
         binding.login.setOnClickListener { findNavController().navigate(R.id.action_signUpFragment_to_loginFragment) }

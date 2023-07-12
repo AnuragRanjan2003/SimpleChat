@@ -50,6 +50,11 @@ class PeopleViewModel : ViewModel() {
         }
     }
 
+    fun logOut(onComplete : ()->Unit){
+        Firebase.auth.signOut()
+        onComplete()
+    }
+
     fun getUser(): LiveData<User> = user
     fun getUserList(): LiveData<ArrayList<User>> = userList
 

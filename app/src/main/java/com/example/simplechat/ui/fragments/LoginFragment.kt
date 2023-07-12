@@ -1,6 +1,7 @@
 package com.example.simplechat.ui.fragments
 
 import android.os.Bundle
+import android.util.Log.e
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +21,12 @@ import com.google.firebase.auth.FirebaseUser
 class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        if (viewModel.fUser != null) findNavController().navigate(R.id.action_loginFragment_to_peopleFragment)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -37,14 +44,15 @@ class LoginFragment : Fragment() {
             binding.loading.visibility = View.VISIBLE
             if (binding.loginEmail.text.isNullOrBlank()) {
                 binding.loginEmail.error = "Email Empty"
+                binding.loading.visibility = View.INVISIBLE
                 return@setOnClickListener
             }
 
             if (binding.loginPassword.text.isNullOrBlank()) {
                 binding.loginPassword.error = "Password Empty"
+                binding.loading.visibility = View.INVISIBLE
                 return@setOnClickListener
-            }
-            viewModel.loginUser {
+            } else viewModel.loginUser(updateUI = {
                 if (it is Success<FirebaseUser>) {
                     binding.loading.visibility = View.INVISIBLE
                     Toast.makeText(context, "Logged in Successfully", Toast.LENGTH_SHORT).show()
@@ -54,7 +62,15 @@ class LoginFragment : Fragment() {
                         .show()
                     binding.loading.visibility = View.INVISIBLE
                 }
-            }
+            }, onTimeOut = {
+                binding.loading.visibility = View.INVISIBLE
+                Toast.makeText(
+                    context,
+                    "Request Timed out, Check your connection",
+                    Toast.LENGTH_SHORT
+                ).show()
+                e("login", "login timeout")
+            })
         }
 
 

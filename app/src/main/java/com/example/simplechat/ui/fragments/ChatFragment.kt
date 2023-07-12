@@ -1,59 +1,96 @@
 package com.example.simplechat.ui.fragments
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log.e
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.simplechat.R
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.simplechat.adapter.ChatAdapter
+import com.example.simplechat.databinding.FragmentChatBinding
+import com.example.simplechat.models.Chat
+import com.example.simplechat.viewmodels.ChatViewModel
+import java.text.SimpleDateFormat
+import java.util.Locale
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ChatFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ChatFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var receiverID: String? = null
+    private lateinit var binding: FragmentChatBinding
+    private val viewModel: ChatViewModel by viewModels()
+    private lateinit var adapter: ChatAdapter
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            receiverID = it.getString("uid")
         }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_chat, container, false)
+    ): View {
+        binding = FragmentChatBinding.inflate(inflater)
+        e("user", receiverID.toString())
+
+
+        adapter = ChatAdapter(ArrayList(), viewModel.fUser.uid)
+
+
+        if (!receiverID.isNullOrBlank()) {
+            viewModel.getReceiverData(receiverID!!)
+            viewModel.startGettingAllChats(receiverID!!)
+        }
+        viewModel.getReceiver().observe(viewLifecycleOwner) {
+            binding.email.text = it.email
+            binding.name.text = it.name
+        }
+
+        viewModel.getChats().observe(viewLifecycleOwner) {
+            adapter.updateList(it)
+        }
+
+
+
+        binding.rec.adapter = adapter
+        binding.rec.hasFixedSize()
+        binding.rec.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
+        binding.btnSend.setOnClickListener {
+            if (binding.etChat.text.isNullOrBlank()) return@setOnClickListener
+            if (receiverID.isNullOrBlank()) return@setOnClickListener
+            val chat = Chat(
+                message = binding.etChat.text.toString(),
+                senderId = viewModel.fUser.uid,
+                receiverId = receiverID!!,
+                time = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(
+                    java.util.Date()
+                )
+            )
+            viewModel.postChat(chat) {
+                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+            }
+            binding.etChat.text?.clear()
+        }
+
+
+
+        return binding.root
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ChatFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             ChatFragment().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putString("uid", param1)
                 }
             }
     }

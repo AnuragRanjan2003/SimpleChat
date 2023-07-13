@@ -18,7 +18,7 @@ object Repository {
     suspend fun createUser(email: String, password: String, name: String): Resource<FirebaseUser> =
         SafeCall.auth {
             mAuth.createUserWithEmailAndPassword(email, password).await().user?.apply {
-                val user = User(name, email, uid)
+                val user = User(name, email,password, uid = uid)
                 saveUser(user)
             }
 

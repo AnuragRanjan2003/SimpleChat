@@ -5,6 +5,7 @@ import android.util.Log.e
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -51,9 +52,12 @@ class PeopleFragment : Fragment() {
         }
 
         binding.fabProfile.setOnClickListener {
-            viewModel.logOut() {
-                findNavController().navigate(R.id.action_peopleFragment_to_loginFragment)
-            }
+            binding.etSearch.text?.clear()
+            findNavController().navigate(R.id.action_peopleFragment_to_profileFragment)
+        }
+
+        binding.etSearch.doAfterTextChanged {
+            adapter.filter.filter(it.toString())
         }
 
 

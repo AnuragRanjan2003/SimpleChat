@@ -15,7 +15,7 @@ import kotlinx.coroutines.withContext
 
 class PeopleViewModel : ViewModel() {
 
-    private var user = MutableLiveData<User>(User("", "", ""))
+    private var user = MutableLiveData<User>(User("", "", uid = ""))
     private val userList: MutableLiveData<ArrayList<User>> by lazy { MutableLiveData<ArrayList<User>>() }
     private val fUser = Firebase.auth.currentUser!!
 
@@ -50,10 +50,7 @@ class PeopleViewModel : ViewModel() {
         }
     }
 
-    fun logOut(onComplete : ()->Unit){
-        Firebase.auth.signOut()
-        onComplete()
-    }
+
 
     fun getUser(): LiveData<User> = user
     fun getUserList(): LiveData<ArrayList<User>> = userList

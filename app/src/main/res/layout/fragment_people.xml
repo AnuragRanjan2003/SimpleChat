@@ -10,29 +10,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayout5"
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            app:boxCornerRadiusBottomEnd="2dp"
+            app:boxCornerRadiusBottomStart="2dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            app:startIconDrawable="@drawable/baseline_search_24"
+            app:boxCornerRadiusTopEnd="2dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:boxBackgroundColor="@color/onBackground"
+            app:boxCornerRadiusTopStart="2dp"
+            app:boxStrokeWidth="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:fontFamily="@font/poppins"
+                android:hint="Search People"
+                android:textColorHint="@color/onBackground" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rec"
+            android:layout_width="0dp"
             android:layout_height="0dp"
+            android:layout_marginTop="5dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            tools:listitem="@layout/people_layout"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.5">
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+            tools:listitem="@layout/people_layout">
 
         </androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:contentDescription="fab"
             android:layout_marginEnd="40dp"
             android:layout_marginBottom="30dp"
             android:id="@+id/fab_profile"
+            app:shapeAppearance="@style/fab_3_rounded"
             app:fabSize="normal"
-            android:src="@drawable/baseline_logout_24"
+            android:src="@drawable/baseline_person_24"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>

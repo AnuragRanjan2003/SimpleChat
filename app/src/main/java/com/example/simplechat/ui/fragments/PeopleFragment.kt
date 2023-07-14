@@ -28,6 +28,7 @@ class PeopleFragment : Fragment() {
         binding = FragmentPeopleBinding.inflate(inflater, container, false)
 
         adapter = PeopleAdapter(ArrayList()) {
+            binding.etSearch.text?.clear()
             val bundle = Bundle()
             bundle.putString("uid", it.uid)
             findNavController().navigate(R.id.action_peopleFragment_to_chatFragment, args = bundle)

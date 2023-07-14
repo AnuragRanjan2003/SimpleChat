@@ -36,18 +36,12 @@ class PeopleAdapter(private val list: ArrayList<User>, private val onClick: (Use
 
     }
 
-    fun addUser(user: User) {
-        val l = list.size
-        list.add(user)
-        filteredList = list
-        notifyItemInserted(l)
-    }
 
     fun updateList(newList: ArrayList<User>) {
         list.clear()
         list.addAll(newList)
-        filteredList = list
-        notifyItemRangeChanged(0, newList.size)
+        filteredList  = list
+        notifyDataSetChanged()
     }
 
     override fun getFilter(): Filter {
@@ -76,7 +70,7 @@ class PeopleAdapter(private val list: ArrayList<User>, private val onClick: (Use
         override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
             try {
                 filteredList = p1?.values as ArrayList<User>
-                notifyItemRangeChanged(0,list.size)
+                notifyDataSetChanged()
             } catch (e: ClassCastException) {
                 e("filter", e.message.toString())
             }
